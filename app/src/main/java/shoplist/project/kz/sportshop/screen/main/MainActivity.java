@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,9 +22,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
 import shoplist.project.kz.sportshop.R;
 import shoplist.project.kz.sportshop.model.ExpandedMenuModel;
 import shoplist.project.kz.sportshop.screen.home.HomeFragment;
+import shoplist.project.kz.sportshop.screen.kids.KidsAccessoriesFragment;
+import shoplist.project.kz.sportshop.screen.kids.KidsApparelsFragment;
+import shoplist.project.kz.sportshop.screen.kids.KidsFootwearFragment;
+import shoplist.project.kz.sportshop.screen.man.ManAccessoriesFragment;
+import shoplist.project.kz.sportshop.screen.man.ManApparelsFragment;
+import shoplist.project.kz.sportshop.screen.man.ManFootwearFragment;
+import shoplist.project.kz.sportshop.screen.sports.BasketballFragment;
+import shoplist.project.kz.sportshop.screen.sports.FitnessFragment;
+import shoplist.project.kz.sportshop.screen.sports.FootballFragment;
+import shoplist.project.kz.sportshop.screen.sports.RunningFragment;
+import shoplist.project.kz.sportshop.screen.sports.TennisFragment;
+import shoplist.project.kz.sportshop.screen.woman.WomanAccessoriesFragment;
+import shoplist.project.kz.sportshop.screen.woman.WomanApparelsFragment;
+import shoplist.project.kz.sportshop.screen.woman.WomanFootwearFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -35,7 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<ExpandedMenuModel> listDataHeader;
     private HashMap<ExpandedMenuModel, List<String>> listDataChild;
     private Fragment fragment;
+    private String titleFragment;
     private TextView txtHome;
+
+    private static ViewPager mPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        initViewPager();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         expandableList = (ExpandableListView) findViewById(R.id.navigationmenu);
@@ -68,54 +89,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 if (i == 0){
                     if (i1 == 0){
-
+                        fragment = new ManApparelsFragment();
+                        titleFragment = "Одежда";
                     }
                     if (i1 == 1){
                         Log.i("ssss","manfooter");
+                        fragment = new ManFootwearFragment();
+                        titleFragment = "Обувь";
                     }
                     if (i1 == 2){
                         Log.i("ssss","mantacces");
+                        fragment = new ManAccessoriesFragment();
+                        titleFragment = "Принадлежности";
                     }
                 }
                 if (i == 1){
                     if (i1 == 0){
                         Log.i("ssss","womantshirt");
+                        fragment = new WomanApparelsFragment();
+                        titleFragment = "Одежда";
                     }
                     if (i1 == 1){
                         Log.i("ssss","womantfooter");
+                        fragment = new WomanFootwearFragment();
+                        titleFragment = "Обувь";
                     }
                     if (i1 == 2){
                         Log.i("ssss","womanacces");
+                        fragment = new WomanAccessoriesFragment();
+                        titleFragment = "Принадлежности";
                     }
                 }
                 if (i == 2){
                     if (i1 == 0){
-
+                        fragment = new KidsApparelsFragment();
+                        titleFragment = "Одежда";
                     }
                     if (i1 == 1){
-
+                        fragment = new KidsFootwearFragment();
+                        titleFragment = "Обувь";
                     }
                     if (i1 == 2){
-
+                        fragment = new KidsAccessoriesFragment();
+                        titleFragment = "Принадлежности";
                     }
                 }
                 if (i == 3){
                     if (i1 == 0){
-
+                        fragment = new FootballFragment();
+                        titleFragment = "Футбол";
                     }
                     if (i1 == 1){
-
+                        fragment = new BasketballFragment();
+                        titleFragment = "Баскетбол";
                     }
                     if (i1 == 2){
-
+                        fragment = new TennisFragment();
+                        titleFragment = "Теннис";
                     }
                     if (i1 == 3){
-
+                        fragment = new FitnessFragment();
+                        titleFragment = "Фитнес";
                     }
                     if (i1 == 4){
-
+                        fragment = new RunningFragment();
+                        titleFragment = "Бег";
                     }
                 }
+                setFragment(fragment);
+                setActionBarTitle(titleFragment);
                 return false;
             }
         });
@@ -128,6 +170,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
+    private void initViewPager() {
+        mPager = (ViewPager) findViewById(R.id.slide_view_pager);
+        CircleIndicator circleIndicator = (CircleIndicator)findViewById(R.id.indicatorSlider);
+        mPager.setAdapter(new SliderImageAdapter(this));
+        mPager.addOnPageChangeListener(viewPagerPageChangeListener);
+        circleIndicator.setViewPager(mPager);
+    }
+
+    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+
+        }
+    };
 
     private void prepareListData() {
         listDataHeader = new ArrayList<ExpandedMenuModel>();
@@ -173,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         List<String> heading4 = new ArrayList<String>();
         heading4.add("Футбол");
         heading4.add("Баскетбол");
-        heading4.add("Тенис");
+        heading4.add("Теннис");
         heading4.add("Фитнес");
         heading4.add("Бег");
 
