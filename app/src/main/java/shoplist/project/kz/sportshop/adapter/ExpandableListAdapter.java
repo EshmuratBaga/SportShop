@@ -1,4 +1,4 @@
-package shoplist.project.kz.sportshop.screen.main;
+package shoplist.project.kz.sportshop.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
