@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,7 +25,6 @@ import shoplist.project.kz.sportshop.rest.ApiInterface;
 public class InitApi {
 
     public static void initApi(final RecyclerView recyclerView, String catId, final Context context) {
-        Log.d("dddd",""+12345);
         ApiInterface apiInterface = ApiClient.getApiInterface();
         Call<ProductsResponse> call = apiInterface.getProducts(catId);
         call.enqueue(new Callback<ProductsResponse>() {
@@ -34,10 +34,13 @@ public class InitApi {
                     ProductsResponse productsResponse = response.body();
                     List<DataProducts> dataProducts = productsResponse.getData();
                     List<ProductInfo> productInfos = dataProducts.get(0).getObject();
-                    Log.d("ssss","" + productInfos.size());
                     boolean success = dataProducts.get(0).isSuccess();
                     if (success){
-                        Log.d("ssss","true");
+                        Realm realm = Realm.getDefaultInstance();
+                        realm.beginTransaction();
+                        realm.delete(ProductInfo.class);
+                        realm.insert(productInfos);
+                        realm.commitTransaction();
                         recyclerView.setAdapter(new ManApparelsAdapter(context,productInfos, R.layout.item_recycler_view));
                     }
                 }else {

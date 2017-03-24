@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import me.relex.circleindicator.CircleIndicator;
 import shoplist.project.kz.sportshop.R;
-import shoplist.project.kz.sportshop.screen.main.SliderImageAdapter;
+import shoplist.project.kz.sportshop.adapter.SliderImageAdapter;
 
 /**
  * A simple {@link Fragment} subclass.

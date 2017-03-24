@@ -1,4 +1,4 @@
-package shoplist.project.kz.sportshop.screen.main;
+package shoplist.project.kz.sportshop.adapter;
 
 import android.content.Context;
 import android.os.Parcelable;
@@ -16,21 +16,18 @@ import java.util.List;
 import shoplist.project.kz.sportshop.R;
 
 /**
- * Created by Andrey on 3/19/2017.
+ * Created by Andrey on 3/24/2017.
  */
 
-public class SliderImageAdapter extends PagerAdapter{
-    private List<Integer> photo;
+public class DetailsSlideAdapter extends PagerAdapter {
+
+    private List<String> photo;
     private LayoutInflater inflater;
     private Context context;
 
-    public SliderImageAdapter(Context context) {
+    public DetailsSlideAdapter(Context context,List<String> photo) {
         this.context = context;
-        photo = new ArrayList<>();
-        photo.add(R.drawable.sport1);
-        photo.add(R.drawable.sport2);
-        photo.add(R.drawable.sport3);
-        photo.add(R.drawable.sport4);
+        this.photo = photo;
         inflater = LayoutInflater.from(context);
     }
 
@@ -50,8 +47,7 @@ public class SliderImageAdapter extends PagerAdapter{
 
         assert imageLayout != null;
         final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.image_slide);
-
-        Picasso.with(context).load(photo.get(position)).fit().centerCrop().into(imageView);
+        Picasso.with(context).load(photo.get(position)).into(imageView);
 
         view.addView(imageLayout, 0);
 

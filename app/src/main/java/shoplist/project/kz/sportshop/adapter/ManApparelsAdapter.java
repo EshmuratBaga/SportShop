@@ -1,6 +1,8 @@
 package shoplist.project.kz.sportshop.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import shoplist.project.kz.sportshop.R;
 import shoplist.project.kz.sportshop.model.ProductInfo;
+import shoplist.project.kz.sportshop.screen.details.DetailsActivity;
 
 /**
  * Created by Andrey on 3/23/2017.
@@ -31,17 +34,33 @@ public class ManApparelsAdapter extends RecyclerView.Adapter<ManApparelsAdapter.
         this.rowLayout = rowLayout;
     }
 
-    public class ApparelsHolder extends RecyclerView.ViewHolder {
+    public class ApparelsHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ImageView imageView;
         private TextView txtTitle;
         private TextView txtPrice;
+        private CardView cardView;
+        private String id;
 
         public ApparelsHolder(View itemView) {
             super(itemView);
 
+            cardView = (CardView) itemView.findViewById(R.id.rv_grid_item);
             imageView = (ImageView) itemView.findViewById(R.id.img_item);
             txtTitle = (TextView) itemView.findViewById(R.id.txt_title_item);
             txtPrice = (TextView) itemView.findViewById(R.id.txt_price_item);
+
+            cardView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.rv_grid_item:
+                    Intent intent = new Intent(context, DetailsActivity.class);
+                    intent.putExtra("id",id);
+                    context.startActivity(intent);
+                    break;
+            }
         }
     }
 
@@ -56,6 +75,7 @@ public class ManApparelsAdapter extends RecyclerView.Adapter<ManApparelsAdapter.
         Picasso.with(context).load(productInfos.get(position).getImg1()).into(holder.imageView);
         holder.txtTitle.setText(productInfos.get(position).getName());
         holder.txtPrice.setText(productInfos.get(position).getPrice() + "тг");
+        holder.id = productInfos.get(position).getId();
     }
 
     @Override
