@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,12 @@ public class DetailsActivity extends AppCompatActivity {
     private String idProduct;
     private ViewPager viewPager;
     private List<String> photo = new ArrayList<>();
+    private ProductInfo productInfos;
+
+    private TextView txtTitle;
+    private TextView txtPrice;
+    private TextView txtDescription;
+    private TextView txtTechnology;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +54,32 @@ public class DetailsActivity extends AppCompatActivity {
             idProduct = getIntent().getExtras().getString("id");
         }
 
+
         Realm realm = Realm.getDefaultInstance();
-        ProductInfo productInfos = realm.where(ProductInfo.class).equalTo("id",idProduct).findFirst();
-        Log.d("ssss",productInfos.getName() + productInfos.getImg1() + productInfos.getImg2());
+        productInfos = realm.where(ProductInfo.class).equalTo("id",idProduct).findFirst();
         if (productInfos.getImg1() != null){
             photo.add(productInfos.getImg1());
             photo.add(productInfos.getImg2());
-            if (productInfos.getImg3().equals("")){
+            if (productInfos.getImg3().length() == 0){
                 photo.add(productInfos.getImg3());
             }
         }
+
         initWidget();
     }
 
     private void initWidget() {
+        txtTitle = (TextView) findViewById(R.id.details_name);
+        txtDescription = (TextView) findViewById(R.id.details_description);
+        txtPrice = (TextView) findViewById(R.id.details_price);
+        txtTechnology = (TextView) findViewById(R.id.details_technology);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         CircleIndicator circleIndicator = (CircleIndicator) findViewById(R.id.indicator_slider);
+
+        txtTitle.setText(productInfos.getName());
+        txtPrice.setText("Цена:" + productInfos.getPrice() + "тг");
+        txtDescription.setText(productInfos.getDescription());
+        txtTechnology.setText("Технология:" + productInfos.getComposition());
         viewPager.setAdapter(new DetailsSlideAdapter(this,photo));
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
         circleIndicator.setViewPager(viewPager);
