@@ -16,14 +16,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import shoplist.project.kz.sportshop.R;
 import shoplist.project.kz.sportshop.adapter.ExpandableListAdapter;
+import shoplist.project.kz.sportshop.model.DataTempAuth;
 import shoplist.project.kz.sportshop.model.ExpandedMenuModel;
+import shoplist.project.kz.sportshop.model.InfoTemp;
+import shoplist.project.kz.sportshop.response.TempAuthResponse;
+import shoplist.project.kz.sportshop.rest.ApiClient;
+import shoplist.project.kz.sportshop.rest.ApiInterface;
 import shoplist.project.kz.sportshop.screen.home.HomeFragment;
 import shoplist.project.kz.sportshop.screen.kids.KidsAccessoriesFragment;
 import shoplist.project.kz.sportshop.screen.kids.KidsApparelsFragment;
@@ -53,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String titleFragment;
     private TextView txtHome;
 
+    private Realm realm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +77,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+        realm = Realm.getDefaultInstance();
+        RealmResults<InfoTemp> infoTemps = realm.where(InfoTemp.class).findAll();
+        if(infoTemps.size() == 0){
+            initTemp();
+            Log.d("dddd","temp" + 123);
+        }else {
+            Toast.makeText(this,"temp id have",Toast.LENGTH_SHORT).show();
+            Log.d("dddd","temp" + 123456);
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         expandableList = (ExpandableListView) findViewById(R.id.navigationmenu);
@@ -160,6 +182,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+    }
+
+    private void initTemp() {
+        ApiInterface apiInterface = ApiClient.getApiInterface();
+        Call<TempAuthResponse> call = apiInterface.getTemp();
+        call.enqueue(new Callback<TempAuthResponse>() {
+            @Override
+            public void onResponse(Call<TempAuthResponse> call, Response<TempAuthResponse> response) {
+                TempAuthResponse tempAuthResponse = response.body();
+                List<DataTempAuth> dataTempAuth = tempAuthResponse.getData();
+                InfoTemp infoTemp = dataTempAuth.get(0).getTempId();
+                boolean success = dataTempAuth.get(0).isSuccess();
+                if (success){
+                    Log.d("dddd","id" + infoTemp.getId());
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(infoTemp);
+                    realm.commitTransaction();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<TempAuthResponse> call, Throwable t) {
+                Log.d("dddd",t.getMessage());
+            }
+        });
     }
 
     private void prepareListData() {

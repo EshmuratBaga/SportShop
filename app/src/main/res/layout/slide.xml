@@ -9,7 +9,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="200dp" >
+        android:layout_height="200dp">
 
 
     </android.support.v4.view.ViewPager>
@@ -22,5 +22,13 @@
         android:layout_marginBottom="10dp"
         app:ci_drawable="@drawable/white_radius_indicator"
         app:ci_drawable_unselected="@drawable/black_radius_indicator"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="10dp"
+        android:src="@drawable/ic_favorite_border_black_24dp" />
 
 </FrameLayout>

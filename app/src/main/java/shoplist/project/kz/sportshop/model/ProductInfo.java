@@ -40,6 +40,8 @@ public class ProductInfo extends RealmObject{
     @Expose
     private String composition;
 
+    private boolean isPress;
+
     public String getId() {
         return id;
     }
@@ -110,5 +112,13 @@ public class ProductInfo extends RealmObject{
 
     public void setComposition(String composition) {
         this.composition = composition;
+    }
+
+    public boolean isPress() {
+        return isPress;
+    }
+
+    public void setPress(boolean press) {
+        isPress = press;
     }
 }

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,6 +41,7 @@ public class ManApparelsAdapter extends RecyclerView.Adapter<ManApparelsAdapter.
         private TextView txtTitle;
         private TextView txtPrice;
         private CardView cardView;
+        private ImageButton iBtnFavorite;
         private String id;
 
         public ApparelsHolder(View itemView) {
@@ -48,6 +51,7 @@ public class ManApparelsAdapter extends RecyclerView.Adapter<ManApparelsAdapter.
             imageView = (ImageView) itemView.findViewById(R.id.img_item);
             txtTitle = (TextView) itemView.findViewById(R.id.txt_title_item);
             txtPrice = (TextView) itemView.findViewById(R.id.txt_price_item);
+            iBtnFavorite = (ImageButton) itemView.findViewById(R.id.ibtn_favorite);
 
             cardView.setOnClickListener(this);
         }
@@ -71,11 +75,32 @@ public class ManApparelsAdapter extends RecyclerView.Adapter<ManApparelsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ApparelsHolder holder, int position) {
+    public void onBindViewHolder(final ApparelsHolder holder, final int position) {
         Picasso.with(context).load(productInfos.get(position).getImg1()).into(holder.imageView);
         holder.txtTitle.setText(productInfos.get(position).getName());
         holder.txtPrice.setText(productInfos.get(position).getPrice() + "тг");
         holder.id = productInfos.get(position).getId();
+
+        if (productInfos.get(position).isPress()){
+            holder.iBtnFavorite.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+        }else {
+            holder.iBtnFavorite.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+        }
+
+        holder.iBtnFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (productInfos.get(position).isPress()){
+                    Log.d("ssss","click" + 123);
+                    holder.iBtnFavorite.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+                    productInfos.get(position).setPress(false);
+                }else {
+                    Log.d("ssss","click" + 123456);
+                    holder.iBtnFavorite.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+                    productInfos.get(position).setPress(true);
+                }
+            }
+        });
     }
 
     @Override

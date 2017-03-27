@@ -1,5 +1,6 @@
 package shoplist.project.kz.sportshop.screen.details;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import shoplist.project.kz.sportshop.R;
 import shoplist.project.kz.sportshop.adapter.DetailsSlideAdapter;
 import shoplist.project.kz.sportshop.model.ProductInfo;
 import shoplist.project.kz.sportshop.adapter.SliderImageAdapter;
+import shoplist.project.kz.sportshop.utils.ResizableCustomView;
 
 public class DetailsActivity extends AppCompatActivity {
     private String idProduct;
@@ -30,6 +33,8 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView txtPrice;
     private TextView txtDescription;
     private TextView txtTechnology;
+    private TextView txtMore;
+    private boolean expandable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +82,15 @@ public class DetailsActivity extends AppCompatActivity {
         CircleIndicator circleIndicator = (CircleIndicator) findViewById(R.id.indicator_slider);
 
         txtTitle.setText(productInfos.getName());
-        txtPrice.setText("Цена:" + productInfos.getPrice() + "тг");
+        txtPrice.setText(productInfos.getPrice() + "тг");
         txtDescription.setText(productInfos.getDescription());
-        txtTechnology.setText("Технология:" + productInfos.getComposition());
+        txtTechnology.setText(productInfos.getComposition());
+
         viewPager.setAdapter(new DetailsSlideAdapter(this,photo));
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
         circleIndicator.setViewPager(viewPager);
+
+        ResizableCustomView.doResizeTextView(txtDescription, 4, "Показать", true);
     }
 
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
