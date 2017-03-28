@@ -35,6 +35,7 @@ import shoplist.project.kz.sportshop.model.InfoTemp;
 import shoplist.project.kz.sportshop.response.TempAuthResponse;
 import shoplist.project.kz.sportshop.rest.ApiClient;
 import shoplist.project.kz.sportshop.rest.ApiInterface;
+import shoplist.project.kz.sportshop.screen.favorite.FavoriteFragment;
 import shoplist.project.kz.sportshop.screen.home.HomeFragment;
 import shoplist.project.kz.sportshop.screen.kids.KidsAccessoriesFragment;
 import shoplist.project.kz.sportshop.screen.kids.KidsApparelsFragment;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment fragment;
     private String titleFragment;
     private TextView txtHome;
+    private TextView txtFavorite;
 
     private Realm realm;
 
@@ -84,14 +86,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("dddd","temp" + 123);
         }else {
             Toast.makeText(this,"temp id have",Toast.LENGTH_SHORT).show();
-            Log.d("dddd","temp" + 123456);
+            Log.d("dddd","temp" + infoTemps.get(0).getId());
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         expandableList = (ExpandableListView) findViewById(R.id.navigationmenu);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
+
         txtHome = (TextView) findViewById(R.id.txt_home);
         txtHome.setOnClickListener(this);
+        txtFavorite = (TextView) findViewById(R.id.txt_favorite);
+        txtFavorite.setOnClickListener(this);
         if (navigationView != null) {
             setupDrawerContent(toolbar);
         }
@@ -314,10 +319,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -327,10 +329,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.txt_home:
                 fragment = new HomeFragment();
+                titleFragment = "Главная";
+                break;
+            case R.id.txt_favorite:
+                fragment = new FavoriteFragment();
+                titleFragment = "Избранные";
                 break;
         }
         setFragment(fragment);
-        setActionBarTitle("Главная");
+        setActionBarTitle(titleFragment);
     }
 
     public void setFragment(Fragment fragment) {

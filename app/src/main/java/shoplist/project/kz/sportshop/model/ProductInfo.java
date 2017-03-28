@@ -39,6 +39,9 @@ public class ProductInfo extends RealmObject{
     @SerializedName("composition")
     @Expose
     private String composition;
+    @SerializedName("is_favourite")
+    @Expose
+    private int isFavorite;
 
     private boolean isPress;
 
@@ -112,6 +115,14 @@ public class ProductInfo extends RealmObject{
 
     public void setComposition(String composition) {
         this.composition = composition;
+    }
+
+    public int getIsFavorite() {
+        return isFavorite;
+    }
+
+    public void setIsFavorite(int isFavorite) {
+        this.isFavorite = isFavorite;
     }
 
     public boolean isPress() {

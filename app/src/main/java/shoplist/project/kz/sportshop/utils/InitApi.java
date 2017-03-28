@@ -13,6 +13,7 @@ import retrofit2.Response;
 import shoplist.project.kz.sportshop.R;
 import shoplist.project.kz.sportshop.adapter.ManApparelsAdapter;
 import shoplist.project.kz.sportshop.model.DataProducts;
+import shoplist.project.kz.sportshop.model.InfoTemp;
 import shoplist.project.kz.sportshop.model.ProductInfo;
 import shoplist.project.kz.sportshop.response.ProductsResponse;
 import shoplist.project.kz.sportshop.rest.ApiClient;
@@ -23,10 +24,14 @@ import shoplist.project.kz.sportshop.rest.ApiInterface;
  */
 
 public class InitApi {
+    private static Realm realm;
 
     public static void initApi(final RecyclerView recyclerView, String catId, final Context context) {
+        realm = Realm.getDefaultInstance();
+        InfoTemp infoTemp = realm.where(InfoTemp.class).findFirst();
+        Log.d("dddd","tempIdApi" + infoTemp.getId());
         ApiInterface apiInterface = ApiClient.getApiInterface();
-        Call<ProductsResponse> call = apiInterface.getProducts(catId);
+        Call<ProductsResponse> call = apiInterface.getProducts(catId, String.valueOf(infoTemp.getId()));
         call.enqueue(new Callback<ProductsResponse>() {
             @Override
             public void onResponse(Call<ProductsResponse> call, Response<ProductsResponse> response) {
