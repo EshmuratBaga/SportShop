@@ -34,7 +34,7 @@
         android:layout_width="340dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@drawable/back2"
+        android:background="#fff"
         app:headerLayout="@layout/navigation_header"
         app:itemTextAppearance="@style/NavigationViewStyle"
         android:fitsSystemWindows="true">
@@ -65,7 +65,7 @@
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:layout_marginLeft="10dp"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:text="Главная"/>
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:layout_marginLeft="10dp"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:text="Избранные"/>
             </LinearLayout>
 
@@ -113,7 +113,7 @@
                     android:layout_gravity="center"
                     android:textSize="20sp"
                     android:layout_marginLeft="10dp"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:text="Корзина"/>
             </LinearLayout>
 

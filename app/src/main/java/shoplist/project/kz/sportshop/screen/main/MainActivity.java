@@ -1,5 +1,6 @@
 package shoplist.project.kz.sportshop.screen.main;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -35,6 +36,7 @@ import shoplist.project.kz.sportshop.model.InfoTemp;
 import shoplist.project.kz.sportshop.response.TempAuthResponse;
 import shoplist.project.kz.sportshop.rest.ApiClient;
 import shoplist.project.kz.sportshop.rest.ApiInterface;
+import shoplist.project.kz.sportshop.screen.basket.BasketActivity;
 import shoplist.project.kz.sportshop.screen.favorite.FavoriteFragment;
 import shoplist.project.kz.sportshop.screen.home.HomeFragment;
 import shoplist.project.kz.sportshop.screen.kids.KidsAccessoriesFragment;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String titleFragment;
     private TextView txtHome;
     private TextView txtFavorite;
+    private TextView txtBasket;
 
     private Realm realm;
 
@@ -97,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtHome.setOnClickListener(this);
         txtFavorite = (TextView) findViewById(R.id.txt_favorite);
         txtFavorite.setOnClickListener(this);
+        txtBasket = (TextView) findViewById(R.id.txt_basket);
+        txtBasket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, BasketActivity.class));
+            }
+        });
         if (navigationView != null) {
             setupDrawerContent(toolbar);
         }

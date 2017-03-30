@@ -11,16 +11,26 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import me.relex.circleindicator.CircleIndicator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import shoplist.project.kz.sportshop.R;
 import shoplist.project.kz.sportshop.adapter.DetailsSlideAdapter;
+import shoplist.project.kz.sportshop.model.DataAddProduct;
+import shoplist.project.kz.sportshop.model.InfoTemp;
 import shoplist.project.kz.sportshop.model.ProductInfo;
 import shoplist.project.kz.sportshop.adapter.SliderImageAdapter;
+import shoplist.project.kz.sportshop.response.AddFavoriteResponse;
+import shoplist.project.kz.sportshop.rest.ApiClient;
+import shoplist.project.kz.sportshop.rest.ApiInterface;
+import shoplist.project.kz.sportshop.screen.basket.BasketActivity;
 import shoplist.project.kz.sportshop.utils.ResizableCustomView;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -28,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private List<String> photo = new ArrayList<>();
     private ProductInfo productInfos;
+    private InfoTemp infoTemp;
 
     private TextView txtTitle;
     private TextView txtPrice;
@@ -47,8 +58,7 @@ public class DetailsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                addToBasket();
             }
         });
 
@@ -70,7 +80,31 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }
 
+        infoTemp = realm.where(InfoTemp.class).findFirst();
+
         initWidget();
+    }
+
+    private void addToBasket() {
+        ApiInterface apiInterface = ApiClient.getApiInterface();
+        Call<AddFavoriteResponse> call = apiInterface.addToBasket(productInfos.getId(), String.valueOf(infoTemp.getId()));
+        call.enqueue(new Callback<AddFavoriteResponse>() {
+            @Override
+            public void onResponse(Call<AddFavoriteResponse> call, Response<AddFavoriteResponse> response) {
+                AddFavoriteResponse addFavoriteResponse = response.body();
+                List<DataAddProduct> dataAddProduct = addFavoriteResponse.getData();
+                boolean success = dataAddProduct.get(0).isSuccess();
+
+                if (success){
+                    Toast.makeText(DetailsActivity.this,"add to basket", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddFavoriteResponse> call, Throwable t) {
+                Toast.makeText(DetailsActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initWidget() {

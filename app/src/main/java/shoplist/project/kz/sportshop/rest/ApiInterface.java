@@ -33,4 +33,7 @@ public interface ApiInterface {
 
     @GET("?act=my_favourite")
     Call<ProductsResponse> getFavorite(@Query("ta_id") String taId);
+
+    @GET("?act=my_cart")
+    Call<ProductsResponse> getBasket(@Query("ta_id") String taId);
 }

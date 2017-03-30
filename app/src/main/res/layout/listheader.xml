@@ -22,7 +22,7 @@
             android:id="@+id/submenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
+            android:textColor="#000"
             android:layout_gravity="center"
             android:text="sdsdsadfdf"
             android:layout_marginLeft="10dp"
