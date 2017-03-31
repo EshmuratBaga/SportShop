@@ -29,7 +29,7 @@ public interface ApiInterface {
     Call<AddFavoriteResponse> addToBasket(@Query("prod_id") String id, @Query("ta_id") String taId);
 
     @GET("?act=del_product_from_cart")
-    Call<AddFavoriteResponse> deleteToBasket(@Query("prod_id") String id, @Query("ta_id") String taId);
+    Call<AddFavoriteResponse> deleteFromBasket(@Query("prod_id") String id, @Query("ta_id") String taId);
 
     @GET("?act=my_favourite")
     Call<ProductsResponse> getFavorite(@Query("ta_id") String taId);

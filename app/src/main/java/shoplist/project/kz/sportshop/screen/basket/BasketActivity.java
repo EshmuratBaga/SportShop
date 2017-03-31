@@ -5,14 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,7 +31,6 @@ public class BasketActivity extends AppCompatActivity {
     private TextView txtDeliver;
     private TextView txtPriceParent;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +45,6 @@ public class BasketActivity extends AppCompatActivity {
         txtAllPrice = (TextView) findViewById(R.id.txt_all_price);
         txtDeliver = (TextView) findViewById(R.id.txt_deliver);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_basket);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         ApiInterface apiInterface = ApiClient.getApiInterface();
@@ -63,7 +59,7 @@ public class BasketActivity extends AppCompatActivity {
                 boolean success = dataProducts.get(0).isSuccess();
 
                 if (success){
-                    recyclerView.setAdapter(new BasketAdapter(getApplicationContext(),productInfos,R.layout.item_recycler_basket,txtPriceParent,txtAllPrice,txtDeliver));
+                    recyclerView.setAdapter(new BasketAdapter(getApplicationContext(),productInfos,R.layout.item_recycler_basket,txtPriceParent,txtAllPrice,txtDeliver,String.valueOf(infoTemp.getId())));
                 }
             }
 
