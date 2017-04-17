@@ -1,6 +1,8 @@
 package shoplist.project.kz.sportshop.screen.basket;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +39,11 @@ public class BasketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_basket);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_clear_white_24dp);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         realm = Realm.getDefaultInstance();
         infoTemp = realm.where(InfoTemp.class).findFirst();

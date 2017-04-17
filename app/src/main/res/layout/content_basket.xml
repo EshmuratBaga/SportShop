@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="@dimen/fab_margin"
+    android:layout_margin="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="shoplist.project.kz.sportshop.screen.basket.BasketActivity"
     tools:showIn="@layout/activity_basket">
